@@ -14,6 +14,8 @@ This allows you to do a number of things:
 
 DEPENDENCIES
 
+1) requests - https://github.com/psf/requests
+
 For full functionality, the following additional components must be installed
 on your computer. Most functions will work without them, however, with these 
 components installed, the gramplet will just show a bio in its formatted
