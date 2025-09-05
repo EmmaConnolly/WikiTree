@@ -312,10 +312,10 @@ class BioWindow(Gtk.Window):
             # Get children for spouse:
             child_ref_list = family.get_child_ref_list()
             if child_ref_list:
-                res += "'''Children:'''\n<ol>\n"
+                res += "'''Children:'''\n"
                 for child_ref in child_ref_list:
-                    res += "<li>" + self.format_clickable_name(child_ref.ref) + "</li>\n"
-                res += "</ol><br/>\n"
+                    res += "# " + self.format_clickable_name(child_ref.ref) + "\n"
+                res += "<br/>\n"
 
         return res + "</p>\n"
 
