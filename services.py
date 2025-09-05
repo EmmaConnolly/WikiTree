@@ -44,11 +44,11 @@ def format_person_info(person, show_id=False):
     """
     id_text = (' [' + person['Name'] + ']') if show_id else ''
 
-    text = "<b>Name:</b> " + format_name(person) + id_text + "\n"
-    text += '<b>Date/place of birth:</b> ' \
+    text = "'''Name:''' " + format_name(person) + id_text + "\n"
+    text += "'''Date/place of birth:''' " \
             + (person['BirthDate'] if 'BirthDate' in person else '------') + ', ' \
             + ((person['BirthLocation'] if 'BirthLocation' in person else '') or '')  + "\n"
-    text += '<b>Date/place of death:</b> ' \
+    text += "'''Date/place of death:''' " \
             + (person['DeathDate'] if 'DeathDate' in person else '------') + ', ' \
             + ((person['DeathLocation'] if 'DeathLocation' in person else '') or '')  + "\n"
     return text

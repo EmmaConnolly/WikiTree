@@ -232,7 +232,7 @@ class BioWindow(Gtk.Window):
         full_name = name.get_first_name() + ' ' + name.get_surname()
         citations = self.person.get_citation_list()
         cit_str = self.add_citations(citations) if citations else ''
-        res = "<b>%s</b> %s\n" % (full_name, cit_str)
+        res = "'''%s''' %s\n" % (full_name, cit_str)
         return res
 
 
@@ -269,29 +269,29 @@ class BioWindow(Gtk.Window):
         gender = self.person.get_gender()
         wt_attrs = get_wikitree_attributes(self.db, self.person)
         if wt_attrs:
-            res += '<b>WikiTree Id:</b> ' + wt_attrs['id'] + "<br/>\n"
+            res += "'''WikiTree Id:''' " + wt_attrs['id'] + "<br/>\n"
 
         # Birth and death dates:
         birth_event = get_birth_or_fallback(self.db, self.person)
         if birth_event:
             place_handle = birth_event.get_place_handle()
             place = (', ' + self.get_full_place_name(place_handle)) if place_handle else ''
-            res += "<b>" + birth_event.get_type().string + ":</b> " \
+            res += "'''" + birth_event.get_type().string + ":''' " \
                 + get_date(birth_event) + place + "<br/>\n"
 
         death_event = get_death_or_fallback(self.db, self.person)
         if death_event:
             place_handle = death_event.get_place_handle()
             place = (', ' + self.get_full_place_name(place_handle)) if place_handle else ''
-            res += "<b>" + death_event.get_type().string + ":</b> " \
+            res += "'''" + death_event.get_type().string + ":''' " \
                 + get_date(death_event) + place + "<br/>\n"
 
         # Extract parents
         mother, father = self.relcalc.get_birth_parents(self.db, self.person)
         if father:
-            res += '<b>Father:</b> ' + self.format_clickable_name(father) + "<br/>\n"
+            res += "'''Father:''' " + self.format_clickable_name(father) + "<br/>\n"
         if mother:
-            res += '<b>Mother:</b> ' + self.format_clickable_name(mother) + "<br/>\n"
+            res += "'''Mother:''' " + self.format_clickable_name(mother) + "<br/>\n"
 
         # Extract spouses and children
         for family_handle in self.person.get_family_handle_list():
@@ -301,18 +301,18 @@ class BioWindow(Gtk.Window):
 
             # Get name of spouse
             if gender == Person.MALE:
-                res += '<b>Wife:</b> ' \
+                res += "'''Wife:''' " \
                     + self.format_clickable_name(family.get_mother_handle()) \
                     + "<br/>\n"
             else:
-                res += '<b>Husband:</b> ' \
+                res += "'''Husband:''' " \
                     + self.format_clickable_name(family.get_father_handle()) \
                     + "<br/>\n"
 
             # Get children for spouse:
             child_ref_list = family.get_child_ref_list()
             if child_ref_list:
-                res += "<b>Children:</b>\n<ol>\n"
+                res += "'''Children:'''\n<ol>\n"
                 for child_ref in child_ref_list:
                     res += "<li>" + self.format_clickable_name(child_ref.ref) + "</li>\n"
                 res += "</ol><br/>\n"
@@ -348,7 +348,7 @@ class BioWindow(Gtk.Window):
         citations = name.get_citation_list()
         cit_str = self.add_citations(citations) if citations else ''
 
-        res_name = "<li><b>" + str(name_type) + ":</b> " + full_name + surname_type + cit_str + "</li>\n"
+        res_name = "<li>'''" + str(name_type) + ":''' " + full_name + surname_type + cit_str + "</li>\n"
 
         return res_name
 
@@ -369,7 +369,7 @@ class BioWindow(Gtk.Window):
         # Output list of events
         res += "<ul>\n"
         for one_date in events:
-            evres = "<li><b>" + one_date['datestr'] + "</b><br/>\n"
+            evres = "<li>'''" + one_date['datestr'] + "'''<br/>\n"
             evres += "<ul>\n"
             event_count = 0
             for ev in one_date['events']:
@@ -424,7 +424,7 @@ class BioWindow(Gtk.Window):
                     if len(witnesses) > 1:
                         witstr = _('Witness') if len(witnesses) == 1 else _('Witnesses')
                         comma = ''
-                        witness_str = "<b>%s:</b> " % witstr
+                        witness_str = "'''%s:''' " % witstr
                         for wit in witnesses:
                             witness_str += comma + self.format_clickable_name(wit[1], include_dates=False)
                             comma = ', '
@@ -448,7 +448,7 @@ class BioWindow(Gtk.Window):
                     if len(witnesses) > 1:
                         witstr = _('Witness') if len(witnesses) == 1 else _('Witnesses')
                         comma = ''
-                        witness_str = "<b>%s:</b> " % witstr # -760,-28
+                        witness_str = "'''%s:''' " % witstr # -760,-28
                         for wit in witnesses:
                             witness_str += comma + self.format_clickable_name(wit[1], include_dates=False)
                             comma = ', '
@@ -494,7 +494,7 @@ class BioWindow(Gtk.Window):
                 participants_str = 'of ' + self.format_clickable_name(primary_handle, include_dates=False) + ' '
 
         # Construct event string
-        res += rolestr + "<b>" + event.get_type().string + "</b> " \
+        res += rolestr + "'''" + event.get_type().string + "''' " \
             + descr_str \
             + participants_str + ' ' + cit_str + "\n"
 
@@ -719,18 +719,18 @@ class BioWindow(Gtk.Window):
 
                 res += "<li>"
                 if date:
-                    res += "<b>Date:</b> %s<br/>\n" % date
+                    res += "'''Date:''' %s<br/>\n" % date
                 if page:
-                    res += "<b>Page:</b> %s<br/>\n" % page
+                    res += "'''Page:''' %s<br/>\n" % page
                 if media_list:
-                    res += "<b>Media:</b><ul>\n"
+                    res += "'''Media:'''<ul>\n"
                     for mediaref in media_list:
                         media = self.db.get_media_from_handle(mediaref.ref)
-                        res += "<li><b>Description:</b> %s<br/>\n" % media.get_description()
-                        res += "<b>Path:</b> %s</li>\n" % media.get_path()
+                        res += "<li>'''Description:''' %s<br/>\n" % media.get_description()
+                        res += "'''Path:''' %s</li>\n" % media.get_path()
                     res += "</ul>\n"
                 if note_list:
-                    res += "<b>Notes:</b><ul>\n"
+                    res += "'''Notes:'''<ul>\n"
                     for note_handle in note_list:
                         note = self.db.get_note_from_handle(note_handle)
                         res += "<li>%s<br/>\n" % note.get_type().string
